@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../supabase'
 
-function Mission() {
+function Mission({ t }) {
   const { id } = useParams()
   const [mission, setMission] = useState(null)
   const navigate = useNavigate()
@@ -19,60 +19,92 @@ function Mission() {
     getMission()
   }, [id])
 
-  if (!mission) return <p style={{ textAlign: 'center', padding: '2rem', fontFamily: 'Inter, sans-serif' }}>Cargando...</p>
+  if (!mission) return <p style={{ textAlign: 'center', padding: '2rem' }}>Cargando...</p>
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#F7F3EC' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#F4F6FA' }}>
 
       {/* Header */}
-      <div style={{ backgroundColor: '#2C4A3E', padding: '1.5rem 2rem', display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{ backgroundColor: '#0F1B35', padding: '0 2rem', height: 110, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.06, display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)' }}>
+          {Array.from({ length: 64 }).map((_, i) => (
+            <div key={i} style={{ backgroundColor: (Math.floor(i / 8) + i) % 2 === 0 ? '#fff' : 'transparent' }} />
+          ))}
+        </div>
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <img src="/logo.png" alt="IZIChess" style={{ width: 170, height: 170, objectFit: 'contain' }} />
+          <div>
+            <h1 style={{ color: '#F4F6FA', fontSize: 22, fontFamily: 'Playfair Display, serif', fontWeight: 600, letterSpacing: 2 }}>IZIChess</h1>
+            <p style={{ color: '#F5C842', fontSize: 12, letterSpacing: 1 }}>{t.mission}</p>
+          </div>
+        </div>
         <button
           onClick={() => navigate('/')}
-          style={{ background: 'none', border: '1px solid #5A7A6E', borderRadius: 8, padding: '6px 14px', color: '#E8E0D0', fontSize: 13, cursor: 'pointer' }}
+          style={{ position: 'relative', background: 'none', border: '1px solid #4A5F82', borderRadius: 8, padding: '6px 14px', color: '#F4F6FA', fontSize: 13, cursor: 'pointer' }}
         >
-          ← Volver
+          {t.back}
         </button>
-        <span style={{ color: '#E8E0D0', fontSize: 13 }}>Misión</span>
       </div>
 
-      <div style={{ maxWidth: 600, margin: '0 auto', padding: '1.5rem' }}>
+      <div style={{ maxWidth: 700, margin: '0 auto', padding: '1.5rem' }}>
 
-        {/* Título */}
-        <div style={{ backgroundColor: '#FDFCFA', border: '1px solid #E8E0D0', borderRadius: 12, padding: '1.5rem', marginBottom: '1rem' }}>
-          <div style={{ fontSize: 32, marginBottom: 12 }}>♟</div>
-          <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, color: '#1A2E28', marginBottom: 8 }}>{mission.title}</h1>
-          <p style={{ fontSize: 14, color: '#5A7A6E', lineHeight: 1.7 }}>{mission.description}</p>
+        {/* Insignia nivel */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: '1.25rem' }}>
+          <div style={{ backgroundColor: '#0F1B35', borderRadius: 8, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 14 }}>♚</span>
+            <span style={{ fontSize: 12, color: '#F5C842', fontWeight: 500 }}>Free Piece Giver</span>
+          </div>
+          <div style={{ fontSize: 12, color: '#4A5F82' }}>Nivel 1 · 10 pts</div>
         </div>
 
-        {/* Objetivo */}
-        <div style={{ backgroundColor: '#EDF3F0', border: '1px solid #3D6B5C', borderRadius: 12, padding: '1.25rem', marginBottom: '1rem' }}>
-          <div style={{ fontSize: 12, fontWeight: 500, color: '#2C4A3E', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 6 }}>Objetivo medible</div>
-          <p style={{ fontSize: 14, color: '#1A2E28', lineHeight: 1.6 }}>{mission.criteria}</p>
+        {/* Tarjeta principal */}
+        <div style={{ backgroundColor: '#FFFFFF', border: '1px solid #D8E0EE', borderRadius: 12, padding: '1.5rem', marginBottom: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 16 }}>
+            <div>
+              <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, color: '#0F1B35', marginBottom: 8 }}>{mission.title}</h1>
+              <p style={{ fontSize: 14, color: '#4A5F82', lineHeight: 1.7 }}>{mission.description}</p>
+            </div>
+            <div style={{ backgroundColor: '#EEF2FA', borderRadius: 10, width: 52, height: 52, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, flexShrink: 0 }}>♟</div>
+          </div>
+
+          {/* Barra de progreso */}
+          <div style={{ borderTop: '1px solid #D8E0EE', paddingTop: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#4A5F82', marginBottom: 6 }}>
+              <span>Progreso de misión</span>
+              <span>0 / 3 completado</span>
+            </div>
+            <div style={{ backgroundColor: '#D8E0EE', borderRadius: 20, height: 6 }}>
+              <div style={{ backgroundColor: '#F5C842', height: 6, borderRadius: 20, width: '0%' }}></div>
+            </div>
+          </div>
         </div>
 
-        {/* Cómo completarla */}
-        <div style={{ backgroundColor: '#FDFCFA', border: '1px solid #E8E0D0', borderRadius: 12, padding: '1.25rem', marginBottom: '1.5rem' }}>
-          <div style={{ fontSize: 12, fontWeight: 500, color: '#5A7A6E', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 6 }}>Cómo completarla</div>
-          <p style={{ fontSize: 14, color: '#5A7A6E', lineHeight: 1.6 }}>{mission.how_to}</p>
+        {/* Grid objetivo + cómo */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+          <div style={{ backgroundColor: '#EEF2FA', border: '1px solid #D8E0EE', borderRadius: 12, padding: '1.25rem' }}>
+            <div style={{ fontSize: 11, fontWeight: 500, color: '#0F1B35', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 8 }}>{t.measurableGoal}</div>
+            <p style={{ fontSize: 14, color: '#0F1B35', lineHeight: 1.6 }}>{mission.criteria}</p>
+          </div>
+          <div style={{ backgroundColor: '#FFFFFF', border: '1px solid #D8E0EE', borderRadius: 12, padding: '1.25rem' }}>
+            <div style={{ fontSize: 11, fontWeight: 500, color: '#4A5F82', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 8 }}>{t.howToComplete}</div>
+            <p style={{ fontSize: 14, color: '#4A5F82', lineHeight: 1.6 }}>{mission.how_to}</p>
+          </div>
         </div>
 
-        {/* Botón */}
+        {/* Puntos que ganas */}
+        <div style={{ backgroundColor: '#0F1B35', borderRadius: 12, padding: '1rem 1.25rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontSize: 11, color: '#4A5F82', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Puntos al completar</div>
+            <div style={{ fontSize: 20, fontWeight: 600, color: '#F5C842' }}>+50 pts</div>
+          </div>
+          <div style={{ fontSize: 36 }}>🏆</div>
+        </div>
+
         <button
           onClick={() => navigate(`/complete/${id}`)}
-          style={{
-            width: '100%',
-            padding: '14px',
-            backgroundColor: '#2C4A3E',
-            border: 'none',
-            borderRadius: 12,
-            color: '#F7F3EC',
-            fontSize: 15,
-            fontWeight: 500,
-            cursor: 'pointer',
-            fontFamily: 'Inter, sans-serif'
-          }}
+          style={{ width: '100%', padding: '14px', backgroundColor: '#F5C842', border: 'none', borderRadius: 12, color: '#0F1B35', fontSize: 15, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
         >
-          Enviar mi progreso →
+          {t.sendProgress}
         </button>
 
       </div>

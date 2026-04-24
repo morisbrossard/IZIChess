@@ -6,23 +6,10 @@
   padding: 0;
 }
 
-:root {
-  --verde: #2C4A3E;
-  --verde-claro: #3D6B5C;
-  --verde-suave: #EDF3F0;
-  --crema: #F7F3EC;
-  --crema-oscura: #E8E0D0;
-  --dorado: #B8960C;
-  --dorado-suave: #F5ECC8;
-  --texto: #1A2E28;
-  --texto-suave: #5A7A6E;
-  --blanco: #FDFCFA;
-}
-
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--crema);
-  color: var(--texto);
+  background-color: #F4F6FA;
+  color: #0F1B35;
   min-height: 100vh;
 }
 

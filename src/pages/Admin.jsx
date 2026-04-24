@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../supabase'
 import { useNavigate } from 'react-router-dom'
 
-function Admin() {
+function Admin({ t }) {
   const [submissions, setSubmissions] = useState([])
   const [feedbacks, setFeedbacks] = useState({})
   const [autenticado, setAutenticado] = useState(false)
@@ -31,24 +31,24 @@ function Admin() {
 
   if (!autenticado) {
     return (
-      <div style={{ minHeight: '100vh', backgroundColor: '#F7F3EC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ backgroundColor: '#FDFCFA', border: '1px solid #E8E0D0', borderRadius: 12, padding: '2rem', width: 320, textAlign: 'center' }}>
-          <div style={{ fontSize: 36, marginBottom: 12 }}>♟</div>
-          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 20, color: '#1A2E28', marginBottom: 4 }}>Panel del entrenador</h2>
-          <p style={{ fontSize: 13, color: '#5A7A6E', marginBottom: '1.5rem' }}>Ingresa tu clave para continuar</p>
+      <div style={{ minHeight: '100vh', backgroundColor: '#F4F6FA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ backgroundColor: '#FFFFFF', border: '1px solid #D8E0EE', borderRadius: 12, padding: '2rem', width: 340, textAlign: 'center' }}>
+          <img src="/logo.png" alt="IZIChess" style={{ width: 170, height: 170, objectFit: 'contain', marginBottom: 12 }} />
+          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 20, color: '#0F1B35', marginBottom: 4 }}>Panel del entrenador</h2>
+          <p style={{ fontSize: 13, color: '#4A5F82', marginBottom: '1.5rem' }}>{t.enterPassword}</p>
           <input
             type="password"
-            placeholder="Contraseña"
+            placeholder={t.password}
             value={clave}
             onChange={e => setClave(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && clave === 'izichess2024' && setAutenticado(true)}
-            style={{ width: '100%', padding: '10px 14px', borderRadius: 8, border: '1px solid #E8E0D0', fontSize: 14, fontFamily: 'Inter, sans-serif', marginBottom: 10, backgroundColor: '#F7F3EC' }}
+            style={{ width: '100%', padding: '10px 14px', borderRadius: 8, border: '1px solid #D8E0EE', fontSize: 14, fontFamily: 'Inter, sans-serif', marginBottom: 10, backgroundColor: '#F4F6FA', color: '#0F1B35' }}
           />
           <button
-            onClick={() => clave === 'izichess2024' ? setAutenticado(true) : alert('Clave incorrecta')}
-            style={{ width: '100%', padding: '10px', backgroundColor: '#2C4A3E', border: 'none', borderRadius: 8, color: '#F7F3EC', fontSize: 14, fontWeight: 500, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+            onClick={() => clave === 'izichess2024' ? setAutenticado(true) : alert(t.wrongPassword)}
+            style={{ width: '100%', padding: '10px', backgroundColor: '#F5C842', border: 'none', borderRadius: 8, color: '#0F1B35', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
           >
-            Entrar
+            {t.enter}
           </button>
         </div>
       </div>
@@ -56,71 +56,84 @@ function Admin() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#F7F3EC' }}>
-      <div style={{ backgroundColor: '#2C4A3E', padding: '1.5rem 2rem', display: 'flex', alignItems: 'center', gap: 12 }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#F4F6FA' }}>
+
+      {/* Header */}
+      <div style={{ backgroundColor: '#0F1B35', padding: '0 2rem', height: 110, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.06, display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)' }}>
+          {Array.from({ length: 64 }).map((_, i) => (
+            <div key={i} style={{ backgroundColor: (Math.floor(i / 8) + i) % 2 === 0 ? '#fff' : 'transparent' }} />
+          ))}
+        </div>
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <img src="/logo.png" alt="IZIChess" style={{ width: 170, height: 170, objectFit: 'contain' }} />
+          <div>
+            <h1 style={{ color: '#F4F6FA', fontSize: 22, fontFamily: 'Playfair Display, serif', fontWeight: 600, letterSpacing: 2 }}>IZIChess</h1>
+            <p style={{ color: '#F5C842', fontSize: 12, letterSpacing: 1 }}>{t.adminPanel}</p>
+          </div>
+        </div>
         <button
           onClick={() => navigate('/')}
-          style={{ background: 'none', border: '1px solid #5A7A6E', borderRadius: 8, padding: '6px 14px', color: '#E8E0D0', fontSize: 13, cursor: 'pointer' }}
+          style={{ position: 'relative', background: 'none', border: '1px solid #4A5F82', borderRadius: 8, padding: '6px 14px', color: '#F4F6FA', fontSize: 13, cursor: 'pointer' }}
         >
-          ← Volver
+          {t.back}
         </button>
-        <span style={{ color: '#E8E0D0', fontSize: 13 }}>Panel del entrenador</span>
       </div>
 
-      <div style={{ maxWidth: 600, margin: '0 auto', padding: '1.5rem' }}>
-        <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, color: '#1A2E28', marginBottom: 4 }}>Evaluaciones</h1>
-        <p style={{ fontSize: 14, color: '#5A7A6E', marginBottom: '1.5rem' }}>Envíos pendientes de revisión</p>
+      <div style={{ maxWidth: 700, margin: '0 auto', padding: '1.5rem' }}>
+        <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, color: '#0F1B35', marginBottom: 4 }}>{t.evaluations}</h1>
+        <p style={{ fontSize: 14, color: '#4A5F82', marginBottom: '1.5rem' }}>{t.pendingReviews}</p>
 
         {submissions.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '3rem', color: '#5A7A6E', fontSize: 14 }}>
-            <div style={{ fontSize: 36, marginBottom: 12 }}>♟</div>
-            No hay envíos pendientes
+          <div style={{ textAlign: 'center', padding: '3rem', color: '#4A5F82', fontSize: 14 }}>
+            <img src="/logo.png" alt="IZIChess" style={{ width: 60, height: 60, objectFit: 'contain', marginBottom: 12, opacity: 0.4 }} />
+            <p>{t.noPending}</p>
           </div>
         )}
 
         {submissions.map(sub => (
-          <div key={sub.id} style={{ backgroundColor: '#FDFCFA', border: '1px solid #E8E0D0', borderRadius: 12, padding: '1.25rem', marginBottom: '1rem' }}>
-            <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 17, color: '#1A2E28', marginBottom: 4 }}>{sub.missions?.title}</h3>
-            <p style={{ fontSize: 12, color: '#5A7A6E', marginBottom: '0.75rem' }}>Enviado recientemente</p>
+          <div key={sub.id} style={{ backgroundColor: '#FFFFFF', border: '1px solid #D8E0EE', borderRadius: 12, padding: '1.25rem', marginBottom: '1rem' }}>
+            <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 17, color: '#0F1B35', marginBottom: 4 }}>{sub.missions?.title}</h3>
+            <p style={{ fontSize: 12, color: '#4A5F82', marginBottom: '0.75rem' }}>Enviado recientemente</p>
 
             <div style={{ display: 'flex', gap: 10, marginBottom: '0.75rem' }}>
-              <div style={{ backgroundColor: '#EDF3F0', borderRadius: 8, padding: '8px 14px', flex: 1, textAlign: 'center' }}>
-                <div style={{ fontSize: 11, color: '#5A7A6E', marginBottom: 2 }}>CANTIDAD</div>
-                <div style={{ fontSize: 18, fontWeight: 500, color: '#2C4A3E' }}>{sub.count}</div>
+              <div style={{ backgroundColor: '#EEF2FA', borderRadius: 8, padding: '8px 14px', flex: 1, textAlign: 'center' }}>
+                <div style={{ fontSize: 11, color: '#4A5F82', marginBottom: 2 }}>{t.quantity}</div>
+                <div style={{ fontSize: 18, fontWeight: 500, color: '#0F1B35' }}>{sub.count}</div>
               </div>
-              <div style={{ backgroundColor: '#EDF3F0', borderRadius: 8, padding: '8px 14px', flex: 1, textAlign: 'center' }}>
-                <div style={{ fontSize: 11, color: '#5A7A6E', marginBottom: 2 }}>ACIERTOS</div>
-                <div style={{ fontSize: 18, fontWeight: 500, color: '#2C4A3E' }}>{sub.accuracy}%</div>
+              <div style={{ backgroundColor: '#EEF2FA', borderRadius: 8, padding: '8px 14px', flex: 1, textAlign: 'center' }}>
+                <div style={{ fontSize: 11, color: '#4A5F82', marginBottom: 2 }}>{t.accuracy2}</div>
+                <div style={{ fontSize: 18, fontWeight: 500, color: '#0F1B35' }}>{sub.accuracy}%</div>
               </div>
             </div>
 
             {sub.game_link && (
-              <a href={sub.game_link} target="_blank" rel="noreferrer" style={{ fontSize: 13, color: '#3D6B5C', display: 'block', marginBottom: 8 }}>Ver partida →</a>
+              <a href={sub.game_link} target="_blank" rel="noreferrer" style={{ fontSize: 13, color: '#F5C842', display: 'block', marginBottom: 8 }}>{t.viewGame}</a>
             )}
 
             {sub.feeling && (
-              <p style={{ fontSize: 13, color: '#5A7A6E', fontStyle: 'italic', marginBottom: '0.75rem' }}>"{sub.feeling}"</p>
+              <p style={{ fontSize: 13, color: '#4A5F82', fontStyle: 'italic', marginBottom: '0.75rem' }}>"{sub.feeling}"</p>
             )}
 
             <textarea
               placeholder="Escribe tu feedback aquí..."
               value={feedbacks[sub.id] || ''}
               onChange={e => setFeedbacks({ ...feedbacks, [sub.id]: e.target.value })}
-              style={{ width: '100%', padding: '10px 14px', borderRadius: 8, border: '1px solid #E8E0D0', fontSize: 13, fontFamily: 'Inter, sans-serif', minHeight: 80, backgroundColor: '#F7F3EC', color: '#1A2E28', marginBottom: 10, resize: 'vertical' }}
+              style={{ width: '100%', padding: '10px 14px', borderRadius: 8, border: '1px solid #D8E0EE', fontSize: 13, fontFamily: 'Inter, sans-serif', minHeight: 80, backgroundColor: '#F4F6FA', color: '#0F1B35', marginBottom: 10, resize: 'vertical' }}
             />
 
             <div style={{ display: 'flex', gap: 8 }}>
               <button
                 onClick={() => handleFeedback(sub.id, 'level_up')}
-                style={{ flex: 1, padding: '10px', backgroundColor: '#2C4A3E', border: 'none', borderRadius: 8, color: '#F7F3EC', fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                style={{ flex: 1, padding: '10px', backgroundColor: '#F5C842', border: 'none', borderRadius: 8, color: '#0F1B35', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
               >
-                Subir de nivel ↑
+                {t.levelUp}
               </button>
               <button
                 onClick={() => handleFeedback(sub.id, 'repeat')}
-                style={{ flex: 1, padding: '10px', backgroundColor: '#F7F3EC', border: '1px solid #E8E0D0', borderRadius: 8, color: '#5A7A6E', fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
+                style={{ flex: 1, padding: '10px', backgroundColor: '#F4F6FA', border: '1px solid #D8E0EE', borderRadius: 8, color: '#4A5F82', fontSize: 13, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
               >
-                Repetir módulo
+                {t.repeatModule}
               </button>
             </div>
           </div>
