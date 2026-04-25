@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../supabase'
+import Header from '../components/Header'
+import { colors } from '../theme.js'
 
 function Dashboard({ t, lang, setLang }) {
   const [missions, setMissions] = useState([])
@@ -20,35 +22,7 @@ function Dashboard({ t, lang, setLang }) {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#F4F6FA' }}>
 
-      {/* Header */}
-      <div style={{ backgroundColor: '#0F1B35', padding: '0 2rem', height: 110, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.06, display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)' }}>
-          {Array.from({ length: 64 }).map((_, i) => (
-            <div key={i} style={{ backgroundColor: (Math.floor(i / 8) + i) % 2 === 0 ? '#fff' : 'transparent' }} />
-          ))}
-        </div>
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12 }}>
-          <img src="/logo.png" alt="IZIChess" style={{ width: 170, height: 170, objectFit: 'contain' }} />
-          <div>
-            <h1 style={{ color: '#F4F6FA', fontSize: 22, fontFamily: 'Playfair Display, serif', fontWeight: 600, letterSpacing: 2 }}>{t.appName}</h1>
-            <p style={{ color: '#F5C842', fontSize: 12, letterSpacing: 1 }}>{t.appSubtitle}</p>
-          </div>
-        </div>
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <button
-            onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-            style={{ backgroundColor: 'transparent', border: '1px solid #4A5F82', borderRadius: 8, padding: '6px 14px', fontSize: 13, color: '#F4F6FA', cursor: 'pointer' }}
-          >
-            {lang === 'es' ? 'EN' : 'ES'}
-          </button>
-          <button
-            onClick={() => navigate('/admin')}
-            style={{ backgroundColor: 'transparent', border: '1px solid #4A5F82', borderRadius: 8, padding: '6px 14px', fontSize: 13, color: '#F4F6FA', cursor: 'pointer' }}
-          >
-            {t.adminPanel}
-          </button>
-        </div>
-      </div>
+      <Header t={t} lang={lang} setLang={setLang} showAuth={true} subtitle={t.appSubtitle} />
 
       {/* Layout 3 columnas */}
       <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr 260px', gap: '1.5rem', maxWidth: 1200, margin: '0 auto', padding: '1.5rem' }}>

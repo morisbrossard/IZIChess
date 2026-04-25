@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabase'
 import { useNavigate } from 'react-router-dom'
+import Header from '../components/Header'
+import { colors } from '../theme.js'
 
 function Admin({ t }) {
   const [submissions, setSubmissions] = useState([])
   const [feedbacks, setFeedbacks] = useState({})
   const [autenticado, setAutenticado] = useState(false)
   const [clave, setClave] = useState('')
+  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -41,11 +44,11 @@ function Admin({ t }) {
             placeholder={t.password}
             value={clave}
             onChange={e => setClave(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && clave === 'izichess2024' && setAutenticado(true)}
+            onKeyDown={e => e.key === 'Enter' && clave === adminPassword && setAutenticado(true)}
             style={{ width: '100%', padding: '10px 14px', borderRadius: 8, border: '1px solid #D8E0EE', fontSize: 14, fontFamily: 'Inter, sans-serif', marginBottom: 10, backgroundColor: '#F4F6FA', color: '#0F1B35' }}
           />
           <button
-            onClick={() => clave === 'izichess2024' ? setAutenticado(true) : alert(t.wrongPassword)}
+            onClick={() => clave === adminPassword ? setAutenticado(true) : alert(t.wrongPassword)}
             style={{ width: '100%', padding: '10px', backgroundColor: '#F5C842', border: 'none', borderRadius: 8, color: '#0F1B35', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}
           >
             {t.enter}
@@ -58,27 +61,7 @@ function Admin({ t }) {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#F4F6FA' }}>
 
-      {/* Header */}
-      <div style={{ backgroundColor: '#0F1B35', padding: '0 2rem', height: 110, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.06, display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)' }}>
-          {Array.from({ length: 64 }).map((_, i) => (
-            <div key={i} style={{ backgroundColor: (Math.floor(i / 8) + i) % 2 === 0 ? '#fff' : 'transparent' }} />
-          ))}
-        </div>
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12 }}>
-          <img src="/logo.png" alt="IZIChess" style={{ width: 170, height: 170, objectFit: 'contain' }} />
-          <div>
-            <h1 style={{ color: '#F4F6FA', fontSize: 22, fontFamily: 'Playfair Display, serif', fontWeight: 600, letterSpacing: 2 }}>IZIChess</h1>
-            <p style={{ color: '#F5C842', fontSize: 12, letterSpacing: 1 }}>{t.adminPanel}</p>
-          </div>
-        </div>
-        <button
-          onClick={() => navigate('/')}
-          style={{ position: 'relative', background: 'none', border: '1px solid #4A5F82', borderRadius: 8, padding: '6px 14px', color: '#F4F6FA', fontSize: 13, cursor: 'pointer' }}
-        >
-          {t.back}
-        </button>
-      </div>
+      <Header t={t} subtitle={t.adminPanel} />
 
       <div style={{ maxWidth: 700, margin: '0 auto', padding: '1.5rem' }}>
         <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, color: '#0F1B35', marginBottom: 4 }}>{t.evaluations}</h1>
