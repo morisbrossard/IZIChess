@@ -3,6 +3,7 @@ import { supabase } from '../supabase'
 import { colors } from '../theme.js'
 
 function Header({ t, lang, setLang, showAuth = false, subtitle }) {
+  console.log('signOut:', t?.signOut)
   const navigate = useNavigate()
 
   return (
@@ -46,7 +47,7 @@ function Header({ t, lang, setLang, showAuth = false, subtitle }) {
               onClick={async () => await supabase.auth.signOut()}
               style={{ backgroundColor: 'transparent', border: `1px solid ${colors.borderStrong}`, borderRadius: 8, padding: '6px 14px', fontSize: 13, color: colors.bg, cursor: 'pointer' }}
             >
-              Cerrar sesión
+              {t?.signOut || 'Cerrar sesión'}
             </button>
           </>
         )}
