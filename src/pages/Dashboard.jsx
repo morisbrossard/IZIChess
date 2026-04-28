@@ -39,7 +39,7 @@ function Dashboard({ t, lang, setLang, user }) {
         <div>
           <div style={{ backgroundColor: colors.surface, border: `1px solid ${colors.border}`, borderRadius: 12, padding: '1.25rem', marginBottom: '1rem', textAlign: 'center' }}>
             <div style={{ backgroundColor: colors.primary, borderRadius: '50%', width: 60, height: 60, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, margin: '0 auto 12px' }}>♚</div>
-            <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 16, color: colors.textPrimary, fontWeight: 600 }}>Jugador</div>
+            <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 16, color: colors.textPrimary, fontWeight: 600 }}>{user?.email?.split("@")[0]}</div>
             <div style={{ fontSize: 12, color: colors.textSecondary, marginTop: 2 }}>{t.currentLevel} 1: Free Piece Giver</div>
             <div style={{ backgroundColor: colors.border, borderRadius: 20, height: 6, marginTop: 12 }}>
               <div style={{ backgroundColor: colors.accent, height: 6, borderRadius: 20, width: '10%' }}></div>
