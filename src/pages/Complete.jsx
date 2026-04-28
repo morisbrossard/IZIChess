@@ -1,10 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../supabase'
 import Header from '../components/Header'
 import { colors } from '../theme.js'
 
 function Complete({ t }) {
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user)
+  })
+}, [])
   const { id } = useParams()
   const navigate = useNavigate()
   const [form, setForm] = useState({ count: '', accuracy: '', game_link: '', feeling: '' })

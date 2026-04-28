@@ -10,7 +10,20 @@ function Dashboard({ t, lang, setLang, user }) {
   const [loadingMissions, setLoadingMissions] = useState(true)
   const navigate = useNavigate()
 
+  useEffect(() => {  // ← y este useEffect aquí
+    const getUserName = async () => {
+      const { data } = await supabase
+        .from('users')
+        .select('name')
+        .eq('id', user.id)
+        .single()
+        setUserName(data?.name || user?.email?.split('@')[0])
+    }
+    getUserName()
+  }, [])
+
   useEffect(() => {
+    
     const getMissions = async () => {
       try {
         const { data, error } = await supabase
@@ -39,7 +52,7 @@ function Dashboard({ t, lang, setLang, user }) {
         <div>
           <div style={{ backgroundColor: colors.surface, border: `1px solid ${colors.border}`, borderRadius: 12, padding: '1.25rem', marginBottom: '1rem', textAlign: 'center' }}>
             <div style={{ backgroundColor: colors.primary, borderRadius: '50%', width: 60, height: 60, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, margin: '0 auto 12px' }}>♚</div>
-            <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 16, color: colors.textPrimary, fontWeight: 600 }}>{user?.email?.split("@")[0]}</div>
+            <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 16, color: colors.textPrimary, fontWeight: 600 }}>{userName}</div>
             <div style={{ fontSize: 12, color: colors.textSecondary, marginTop: 2 }}>{t.currentLevel} 1: Free Piece Giver</div>
             <div style={{ backgroundColor: colors.border, borderRadius: 20, height: 6, marginTop: 12 }}>
               <div style={{ backgroundColor: colors.accent, height: 6, borderRadius: 20, width: '10%' }}></div>
@@ -65,7 +78,14 @@ function Dashboard({ t, lang, setLang, user }) {
             ))}
           </div>
         </div>
-
+        <div
+        onClick={() => navigate('/feedback')}
+        style={{ backgroundColor: colors.accent, borderRadius: 12, padding: '1rem 1.25rem', marginTop: '1rem', cursor: 'pointer', textAlign: 'center' }}
+>
+        <div style={{ fontSize: 11, fontWeight: 600, color: colors.primary, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Ver mi feedback</div>
+        <div style={{ fontSize: 13, color: colors.primary }}>Revisa la evaluación del entrenador →</div>
+        </div>
+        
         {/* Columna central */}
         <div>
           <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 20, color: colors.textPrimary, marginBottom: '1rem' }}>{t.activeMissions}</h2>
