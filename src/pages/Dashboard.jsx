@@ -92,8 +92,8 @@ function Dashboard({ t, lang, setLang, user }) {
                 {['♜', '♞', '♝'][i % 3]}
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 500, fontSize: 15, marginBottom: 3, color: colors.textPrimary }}>{mission.title}</div>
-                <div style={{ fontSize: 13, color: colors.textSecondary, lineHeight: 1.5 }}>{mission.description}</div>
+                <div style={{ fontWeight: 500, fontSize: 15, marginBottom: 3, color: colors.textPrimary }}>{lang === 'en' ? mission.title_en : mission.title}</div>
+                <div style={{ fontSize: 13, color: colors.textSecondary, lineHeight: 1.5 }}>{lang === 'en' ? mission.description_en : mission.description}</div>
               </div>
               <div style={{ color: colors.textSecondary, fontSize: 18 }}>→</div>
             </div>
@@ -108,8 +108,8 @@ function Dashboard({ t, lang, setLang, user }) {
               style={{ backgroundColor: colors.primary, borderRadius: 12, padding: '1.25rem', marginBottom: '1rem', cursor: 'pointer' }}
             >
               <div style={{ fontSize: 11, color: colors.accent, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 6 }}>{t.nextStep}</div>
-              <div style={{ fontSize: 15, fontFamily: 'Playfair Display, serif', color: colors.bg, marginBottom: 4 }}>{missions[0].title}</div>
-              <div style={{ fontSize: 12, color: colors.textSecondary, lineHeight: 1.5 }}>{missions[0].description}</div>
+              <div style={{ fontSize: 15, fontFamily: 'Playfair Display, serif', color: colors.bg, marginBottom: 4 }}>{lang === 'en' ? missions[0].title_en : missions[0].title}</div>
+              <div style={{ fontSize: 12, color: colors.textSecondary, lineHeight: 1.5 }}>{lang === 'en' ? missions[0].description_en : missions[0].description}</div>
               <div style={{ marginTop: 12, fontSize: 13, color: colors.accent }}>{t.start}</div>
             </div>
           )}

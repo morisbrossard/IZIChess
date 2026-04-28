@@ -39,7 +39,7 @@ function App() {
       <Routes>
         <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
         <Route path="/" element={user ? <Dashboard t={t} lang={lang} setLang={setLang} user={user} /> : <Navigate to="/login" />} />
-        <Route path="/mission/:id" element={user ? <Mission t={t} /> : <Navigate to="/login" />} />
+        <Route path="/mission/:id" element={user ? <Mission t={t} lang={lang} /> : <Navigate to="/login" />} />
         <Route path="/complete/:id" element={user ? <Complete t={t} /> : <Navigate to="/login" />} />
         <Route path="/feedback" element={user ? <Feedback t={t} /> : <Navigate to="/login" />} />
         <Route path="/admin" element={<Admin t={t} />} />

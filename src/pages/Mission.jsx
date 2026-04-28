@@ -4,7 +4,7 @@ import { supabase } from '../supabase'
 import Header from '../components/Header'
 import { colors } from '../theme.js'
 
-function Mission({ t }) {
+function Mission({ t, lang }) {
   const { id } = useParams()
   const [mission, setMission] = useState(null)
   const navigate = useNavigate()
@@ -43,8 +43,8 @@ function Mission({ t }) {
         <div style={{ backgroundColor: '#FFFFFF', border: '1px solid #D8E0EE', borderRadius: 12, padding: '1.5rem', marginBottom: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 16 }}>
             <div>
-              <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, color: '#0F1B35', marginBottom: 8 }}>{mission.title}</h1>
-              <p style={{ fontSize: 14, color: '#4A5F82', lineHeight: 1.7 }}>{mission.description}</p>
+              <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, color: '#0F1B35', marginBottom: 8 }}>{lang === 'en' ? mission.title_en : mission.title}</h1>
+              <p style={{ fontSize: 14, color: '#4A5F82', lineHeight: 1.7 }}>{lang === 'en' ? mission.description_en : mission.description}</p>
             </div>
             <div style={{ backgroundColor: '#EEF2FA', borderRadius: 10, width: 52, height: 52, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, flexShrink: 0 }}>♟</div>
           </div>
@@ -65,11 +65,11 @@ function Mission({ t }) {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
           <div style={{ backgroundColor: '#EEF2FA', border: '1px solid #D8E0EE', borderRadius: 12, padding: '1.25rem' }}>
             <div style={{ fontSize: 11, fontWeight: 500, color: '#0F1B35', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 8 }}>{t.measurableGoal}</div>
-            <p style={{ fontSize: 14, color: '#0F1B35', lineHeight: 1.6 }}>{mission.criteria}</p>
+            <p style={{ fontSize: 14, color: '#0F1B35', lineHeight: 1.6 }}>{lang === 'en' ? mission.criteria_en : mission.criteria}</p>
           </div>
           <div style={{ backgroundColor: '#FFFFFF', border: '1px solid #D8E0EE', borderRadius: 12, padding: '1.25rem' }}>
             <div style={{ fontSize: 11, fontWeight: 500, color: '#4A5F82', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 8 }}>{t.howToComplete}</div>
-            <p style={{ fontSize: 14, color: '#4A5F82', lineHeight: 1.6 }}>{mission.how_to}</p>
+            <p style={{ fontSize: 14, color: '#4A5F82', lineHeight: 1.6 }}>{lang === 'en' ? mission.how_to_en : mission.how_to}</p>
           </div>
         </div>
 
